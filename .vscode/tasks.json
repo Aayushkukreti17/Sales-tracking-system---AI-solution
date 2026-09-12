@@ -1,0 +1,343 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Tipscart: Run Frontend + Backend",
+			"type": "process",
+			"command": "python",
+			"args": [
+				"server.py"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"owner": "tipscart",
+				"pattern": {
+					"regexp": "^(.*)$",
+					"message": 1
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^Tipscart server running at http://localhost:8000$"
+				}
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": false,
+				"clear": false
+			}
+		},
+		{
+			"label": "Tipscart: Run Deployment Tests",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"unittest",
+				"discover",
+				"-s",
+				"tests",
+				"-v"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Tipscart: Run Deployment Tests",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"unittest",
+				"discover",
+				"-s",
+				"tests",
+				"-v"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Tipscart: Run Deployment Tests",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"unittest",
+				"discover",
+				"-s",
+				"tests",
+				"-v"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Tipscart: Auth UI Test Server",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-c",
+				"import os; os.environ['PORT']='8001'; exec(open('server.py', encoding='utf-8').read())"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Tipscart: Auth UI Test Server",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"server.py",
+				"8001"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Tipscart: Auth UI Test Server 8001",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"server.py",
+				"8001"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Tipscart: Final Auth Deployment Tests",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"unittest",
+				"discover",
+				"-s",
+				"tests",
+				"-v"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Tipscart: Signin Demo Check",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"server.py",
+				"8002"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Tipscart: Sign Button Check Server",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"server.py",
+				"8002"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Tipscart: Demo Login Network Check",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"server.py",
+				"8003"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Tipscart: Replace Port 8000 Server",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"server.py",
+				"8000"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Tipscart: Stop Stale Python Servers",
+			"type": "shell",
+			"command": "taskkill",
+			"args": [
+				"/F",
+				"/IM",
+				"python.exe"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Tipscart: Current Server 8000",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"server.py",
+				"8000"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Tipscart: Git Status Check",
+			"type": "shell",
+			"command": "C:\\Program Files\\Git\\cmd\\git.exe",
+			"args": [
+				"status",
+				"--short"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Tipscart: Git Identity Check",
+			"type": "shell",
+			"command": "C:\\Program Files\\Git\\cmd\\git.exe",
+			"args": [
+				"config",
+				"--list",
+				"--show-origin"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Tipscart: Git Remote Check",
+			"type": "shell",
+			"command": "C:\\Program Files\\Git\\cmd\\git.exe",
+			"args": [
+				"remote",
+				"-v"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Tipscart: Configure Git Commit Identity",
+			"type": "shell",
+			"command": "C:\\Program Files\\Git\\cmd\\git.exe",
+			"args": [
+				"config",
+				"user.email",
+				"Aayushkukreti17@users.noreply.github.com"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Tipscart: Stage Full Project",
+			"type": "shell",
+			"command": "C:\\Program Files\\Git\\cmd\\git.exe",
+			"args": [
+				"add",
+				"-A"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Tipscart: Commit Full Project",
+			"type": "shell",
+			"command": "C:\\Program Files\\Git\\cmd\\git.exe",
+			"args": [
+				"commit",
+				"-m",
+				"first commit"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Tipscart: Push Main Branch",
+			"type": "shell",
+			"command": "C:\\Program Files\\Git\\cmd\\git.exe",
+			"args": [
+				"push",
+				"-u",
+				"origin",
+				"main"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Tipscart: Remove Secrets From Git History",
+			"type": "shell",
+			"command": "C:\\Program Files\\Git\\cmd\\git.exe",
+			"args": [
+				"checkout",
+				"--orphan",
+				"clean-main"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Tipscart: Rebuild Clean Git Index",
+			"type": "shell",
+			"command": "C:\\Program Files\\Git\\cmd\\git.exe",
+			"args": [
+				"rm",
+				"-r",
+				"--cached",
+				"."
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Tipscart: Force Clean Git Index",
+			"type": "shell",
+			"command": "C:\\Program Files\\Git\\cmd\\git.exe",
+			"args": [
+				"rm",
+				"-r",
+				"--cached",
+				"-f",
+				"."
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Tipscart: Stage Clean Project",
+			"type": "shell",
+			"command": "C:\\Program Files\\Git\\cmd\\git.exe",
+			"args": [
+				"add",
+				"-A"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}

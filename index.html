@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tipscart — Sales, Cost & Forecast Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="authScreen" class="auth-screen">
+    <div class="auth-brand"><span class="tipsy-mark" aria-hidden="true">T</span><strong>Tips<span>cart</span></strong></div>
+    <div class="auth-layout">
+      <section class="auth-intro">
+        <span class="auth-eyebrow">Commerce intelligence platform</span>
+        <h1>Make every sales decision with confidence.</h1>
+        <p>Forecast demand, understand cost pressure, and act on the signals that move your business.</p>
+        <div class="auth-proof"><span>Live forecasts</span><span>Cost intelligence</span><span>Secure workspace</span></div>
+      </section>
+      <section class="auth-card" aria-label="Demo account access">
+        <div class="auth-tabs"><button class="auth-tab active" data-demo-view="login">Sign in</button><button class="auth-tab" data-demo-view="signup">Create account</button></div>
+        <div id="demoAuthMessage" class="auth-message hidden" role="status"></div>
+        <form id="demoLoginForm" class="auth-form" novalidate>
+          <div><h2>Welcome back</h2><p>Sign in to view the Tipscart demo workspace.</p></div>
+          <label>Email<input name="email" type="email" autocomplete="email" placeholder="you@company.com" required></label>
+          <label>Password<div class="password-field"><input name="password" type="password" placeholder="Any password for demo" required><button type="button" class="password-toggle">Show</button></div></label>
+          <button class="btn primary auth-submit" type="submit">Sign in</button>
+          <button class="auth-link" type="button" data-demo-view="signup">New to Tipscart? Create an account</button>
+        </form>
+        <form id="demoSignupForm" class="auth-form hidden" novalidate>
+          <div><h2>Create demo workspace</h2><p>Use any details to enter the demonstration.</p></div>
+          <label>Full name<input name="name" type="text" placeholder="A. Kumar" required></label>
+          <label>Email<input name="email" type="email" placeholder="you@company.com" required></label>
+          <label>Company<input name="company" type="text" placeholder="Your company" required></label>
+          <label>Password<div class="password-field"><input name="password" type="password" placeholder="Any password for demo" required><button type="button" class="password-toggle">Show</button></div></label>
+          <button class="btn primary auth-submit" type="submit">Enter demo</button>
+        </form>
+        <small class="demo-note">Demo mode: credentials are not checked or stored.</small>
+      </section>
+    </div>
+  </div>
+  <header class="topbar">
+    <button id="sidebarToggle" class="icon-btn" title="Toggle sidebar">☰</button>
+    <div class="brand">Tips<span>cart</span></div>
+    <button class="workspace-pill" id="workspace">India Commerce <span class="caret">▾</span></button>
+    <button class="search-trigger" id="searchTrigger">
+      <span class="mag">Search anything…</span>
+      <kbd>Ctrl K</kbd>
+    </button>
+    <div class="topbar-right">
+      <button class="icon-btn" title="Help" onclick="showToast('Help center opened')">?</button>
+      <button class="icon-btn" title="Notifications" onclick="showToast('3 unread notifications')">🔔</button>
+      <button class="profile" onclick="demoLogout()">A. Kumar <span class="caret">▾</span></button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <nav id="nav"></nav>
+    </aside>
+    <main class="main-content">
+      <div class="filter-bar" id="filterBar"></div>
+      <div class="screen" id="screen"></div>
+    </main>
+  </div>
+
+  <div class="overlay hidden" id="searchOverlay">
+    <div class="search-modal">
+      <input id="searchInput" type="text" placeholder="Search products, categories, reports, datasets…" autocomplete="off">
+      <div id="searchResults"></div>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script src="screens2.js"></script>
+  <script src="screens3.js"></script>
+  <script src="demo-auth.js"></script>
+  <button id="chatbot-float" class="chatbot-float" type="button" aria-label="Open Tipsy sales assistant" aria-controls="chatbot-modal" aria-expanded="false">
+    <span class="tipsy-mark" aria-hidden="true">T</span><span>Tipsy</span>
+  </button>
+  <div id="chatbot-modal" class="chatbot-modal hidden" role="dialog" aria-modal="true" aria-labelledby="chatbot-title">
+    <div class="chatbot-panel">
+      <div class="chatbot-header">
+        <div class="chatbot-identity">
+          <span class="tipsy-mark" aria-hidden="true">T</span>
+          <div><strong id="chatbot-title">Tipsy</strong><span class="chatbot-subtitle">Tipscart sales intelligence</span></div>
+        </div>
+        <div class="chatbot-header-actions">
+          <span class="chatbot-status"><span class="status-dot ok"></span>Live</span>
+          <button class="chatbot-close" type="button" aria-label="Close Tipsy">×</button>
+        </div>
+      </div>
+      <div class="chatbot-body">
+        <div class="chatbot-welcome"><strong>Good to see you.</strong><span>I can explain sales, forecast, cost, margin, inventory, and regional performance.</span></div>
+        <div class="chatbot-suggestions" aria-label="Suggested questions">
+          <button type="button" data-question="What is driving forecast sales?">Forecast drivers</button>
+          <button type="button" data-question="Which category has the best margin?">Best margin</button>
+          <button type="button" data-question="Where is cost increasing?">Cost pressure</button>
+        </div>
+        <div class="chatbot-messages" aria-live="polite"></div>
+      </div>
+      <div class="chatbot-input">
+        <input id="chatbot-input" type="text" placeholder="Ask Tipsy about Tipscart…" autocomplete="off" />
+        <button id="chatbot-mic" class="chatbot-mic" type="button" aria-label="Record a voice question" title="Record a voice question">🎙</button>
+        <button id="chatbot-send" class="btn small primary" type="button">Ask</button>
+      </div>
+      <div class="chatbot-footnote">Tipsy answers from the current Tipscart dashboard.</div>
+    </div>
+  </div>
+  <script>
+    const float = document.getElementById('chatbot-float');
+    const modal = document.getElementById('chatbot-modal');
+    const close = modal.querySelector('.chatbot-close');
+    const input = document.getElementById('chatbot-input');
+    const mic = document.getElementById('chatbot-mic');
+    const send = document.getElementById('chatbot-send');
+    const messages = document.querySelector('.chatbot-messages');
+    const transcribeEndpoint = ['5500', '5501', '5173'].includes(window.location.port)
+      ? window.location.protocol + '//127.0.0.1:8000/api/transcribe'
+      : '/api/transcribe';
+    let showing = false;
+    let recorder = null;
+    let recordingChunks = [];
+    let browserRecognition = null;
+    function setShowing(next) {
+      showing = next;
+      modal.classList.toggle('hidden', !showing);
+      float.setAttribute('aria-expanded', String(showing));
+      if (showing) input.focus();
+    }
+    function addMessage(role, text) {
+      const message = document.createElement('div');
+      message.className = 'chatbot-message ' + role;
+      message.innerHTML = '<span class="chatbot-message-author">' + (role === 'user' ? 'You' : 'Tipsy') + '</span>';
+      const content = document.createElement('span');
+      content.textContent = text;
+      message.appendChild(content);
+      messages.appendChild(message);
+      messages.scrollTop = messages.scrollHeight;
+    }
+    float.addEventListener('click', () => setShowing(!showing));
+    close.addEventListener('click', () => setShowing(false));
+    function answerQuestion(text) {
+      const question = text.toLowerCase();
+      if (question.includes('cost') || question.includes('expense')) return 'Total cost is ₹91.2 Cr, up 8.1%. Logistics is the fastest-growing pressure at +12.2%, followed by fulfillment at +9.4%.';
+      if (question.includes('profit') || question.includes('margin')) return 'Contribution profit is ₹37.2 Cr with a 29.1% contribution margin. Beauty leads category margin at 39%.';
+      if (question.includes('forecast') || question.includes('predict')) return 'Forecast sales are ₹142.7 Cr, up 10.4%, with 91% confidence. Demand growth and price increase are the largest positive drivers.';
+      if (question.includes('driver') || question.includes('why')) return 'The forecast is lifted by demand growth (+3.4), price increase (+1.2), and promotion lift (+0.8). Inventory constraints are the largest negative driver.';
+      if (question.includes('region') || question.includes('west')) return 'West leads sales at ₹42.7 Cr with a 29% margin. South is the next largest at ₹35.1 Cr.';
+      if (question.includes('category') || question.includes('best')) return 'Electronics is the largest category at 33% share. Beauty has the best margin at 39% and the fastest growth at 19%.';
+      if (question.includes('inventory') || question.includes('stock')) return 'There are 12 SKUs at stockout risk and expected lost sales of ₹2.1 Cr. Focus first on items below 10 days of cover.';
+      return 'I can answer questions about Tipscart sales, costs, forecasts, profit, margins, inventory, categories, and regions.';
+    }
+
+    function ask(text) {
+      const cleanText = text.trim();
+      if (!cleanText) return;
+      addMessage('user', cleanText);
+      input.value = '';
+      send.disabled = true;
+      setTimeout(() => { addMessage('assistant', answerQuestion(cleanText)); send.disabled = false; input.focus(); }, 180);
+    }
+    send.addEventListener('click', () => {
+      const text = input.value.trim();
+      ask(text);
+    });
+    function preferredMimeType() {
+      const types = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus'];
+      return types.find((type) => window.MediaRecorder && MediaRecorder.isTypeSupported(type)) || '';
+    }
+    function setRecording(next) {
+      mic.classList.toggle('recording', next);
+      mic.setAttribute('aria-label', next ? 'Stop recording' : 'Record a voice question');
+      mic.title = next ? 'Stop recording' : 'Record a voice question';
+      mic.textContent = next ? '■' : '🎙';
+    }
+    async function transcribeRecording(blob) {
+      const extension = blob.type.includes('ogg') ? 'ogg' : 'webm';
+      const formData = new FormData();
+      formData.append('file', blob, 'tipsy-question.' + extension);
+      formData.append('model', 'saaras:v4');
+      formData.append('mode', 'transcribe');
+      mic.disabled = true;
+      showToast('Transcribing your question…');
+      try {
+        const response = await fetch(transcribeEndpoint, { method: 'POST', body: formData });
+        const rawResponse = await response.text();
+        let result;
+        try { result = JSON.parse(rawResponse); } catch (error) { throw new Error('Tipsy backend is not running'); }
+        if (!response.ok) throw new Error(result.error || 'Transcription failed');
+        if (!result.transcript) throw new Error('No speech was detected');
+        input.value = result.transcript;
+        input.focus();
+        showToast('Voice question ready to send');
+      } catch (error) {
+        if (window.SpeechRecognition || window.webkitSpeechRecognition) {
+          showToast('Sarvam is unavailable. Speak again for browser transcription.');
+          startBrowserRecognition();
+        } else {
+          showToast(error.message + '. You can type your question instead.');
+        }
+      } finally {
+        mic.disabled = false;
+      }
+    }
+    function startBrowserRecognition() {
+      const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!Recognition) return;
+      browserRecognition = new Recognition();
+      browserRecognition.lang = 'en-IN';
+      browserRecognition.interimResults = false;
+      browserRecognition.maxAlternatives = 1;
+      browserRecognition.onresult = (event) => {
+        input.value = event.results[0][0].transcript;
+        input.focus();
+        showToast('Voice question ready to send');
+      };
+      browserRecognition.onerror = () => showToast('Browser transcription could not hear a question');
+      browserRecognition.onend = () => { browserRecognition = null; setRecording(false); };
+      setRecording(true);
+      browserRecognition.start();
+    }
+    mic.addEventListener('click', async () => {
+      if (browserRecognition) { browserRecognition.stop(); return; }
+      if (recorder && recorder.state === 'recording') { recorder.stop(); return; }
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
+        showToast('Voice recording is not supported in this browser');
+        return;
+      }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const mimeType = preferredMimeType();
+        recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+        recordingChunks = [];
+        recorder.addEventListener('dataavailable', (event) => { if (event.data.size) recordingChunks.push(event.data); });
+        recorder.addEventListener('stop', () => {
+          stream.getTracks().forEach((track) => track.stop());
+          setRecording(false);
+          transcribeRecording(new Blob(recordingChunks, { type: recorder.mimeType || mimeType || 'audio/webm' }));
+        }, { once: true });
+        recorder.start();
+        setRecording(true);
+        showToast('Recording… tap the mic again when finished');
+      } catch (error) {
+        setRecording(false);
+        showToast('Microphone permission is required for voice questions');
+      }
+    });
+    document.querySelectorAll('.chatbot-suggestions button').forEach((button) => button.addEventListener('click', () => ask(button.dataset.question)));
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') send.click(); });
+    addMessage('assistant', 'I’m Tipsy, your Tipscart sales copilot. What would you like to understand?');
+    modal.addEventListener('click', (e) => { if (e.target === modal) { showing = false; modal.classList.add('hidden'); } });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && showing) setShowing(false); });
+  </script>
+</body>
+</html>
